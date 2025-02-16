@@ -22,7 +22,7 @@ overflow: hidden;
 html.w-editor [text-split] {opacity: 1;}
 
 .word {
-  overflow:visible;
+  overflow:hidden;
   padding-bottom: 0.1em;
   margin-bottom: -0.1em;
   vertical-align: top;
