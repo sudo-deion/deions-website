@@ -9,7 +9,7 @@ const letters = document.querySelectorAll(
       // Animate the letters with staggered effects
       gsap.from(letters, {
         duration: 1.5,
-        y: 100, // Start from 100px below
+        y: 700, // Start from 100px below
         stagger: 0.1, // Stagger the animation by 0.1 seconds
         ease: CustomEase.create("custom",
         "M0,0 C0,0.712 0.104,1 1,1 "), // Easing function for the animation
