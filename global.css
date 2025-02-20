@@ -17,6 +17,9 @@ overscroll-behavior: contain;
 .lenis.lenis-stopped {
 overflow: hidden;
 }
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
 /* -----TEXT ANIMATIONS----- */
 [text-split] {opacity: 0;}
 html.w-editor [text-split] {opacity: 1;}
