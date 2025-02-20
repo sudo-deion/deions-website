@@ -42,6 +42,42 @@ gsap.to(".load_grid-item", {
       window.location.reload();
     }
   };
+
+  // -----LENIS SMOOTH SCROLL----- //
+  "use strict"; // fix lenis in safari
+  
+  let lenis;
+  if (Webflow.env("editor") === undefined) {
+    // Initialize Lenis
+    lenis = new Lenis({});
+  
+    // Register GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+  
+    // Update ScrollTrigger on Lenis scroll
+    lenis.on('scroll', ScrollTrigger.update);
+  
+    // Use GSAP ticker for Lenis
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+  }
+  
+  // Event listeners for starting, stopping, and toggling Lenis
+  $("[data-lenis-start]").on("click", function () {
+    lenis.start();
+  });
+  $("[data-lenis-stop]").on("click", function () {
+    lenis.stop();
+  });
+  $("[data-lenis-toggle]").on("click", function () {
+    $(this).toggleClass("stop-scroll");
+    if ($(this).hasClass("stop-scroll")) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
+  });
   
   // -----TEXT ANIMATIONS----- //
   // Split text into spans
@@ -92,7 +128,7 @@ gsap.to(".load_grid-item", {
     createScrollTrigger($(this), tl);
   });
   
-  $("[letters-slide-up-true]").each(function (index) {
+  $("[letters-slide-up-true]").each(function () {
     let tl = gsap.timeline({ paused: true });
     tl.from($(this).find(".char"), {
       yPercent: 100,
@@ -102,7 +138,7 @@ gsap.to(".load_grid-item", {
     });
     createScrollTrigger($(this), tl);
   });
-  
+
   $("[letters-fade-in]").each(function (index) {
     let tl = gsap.timeline({ paused: true });
     tl.from($(this).find(".char"), {
@@ -130,46 +166,40 @@ gsap.to(".load_grid-item", {
       stagger: { each: 0.4 }
     });
   });
+
+  export function initLettersSlideUpTrue() {
+    $("[letters-slide-up-home='sticky']").each(function () {
+      let tl = gsap.timeline({ paused: true });
+      
+      // Animate each character in the element
+      tl.from($(this).find(".char"), {
+        yPercent: 100,
+        duration: 0.6,
+        ease: "circ.out",
+        stagger: { amount: 0.2 }
+      });
+
+      // Create a ScrollTrigger for the letters animation
+      ScrollTrigger.create({
+        trigger: this,
+        start: "top 90%", // Adjust this value as needed
+        end: "top center", // Adjust this value as needed
+        scrub: true,
+        onEnter: () => {
+          tl.play(); // Play the letters animation when entering
+        },
+        onLeaveBack: () => {
+          tl.progress(0); // Reset the timeline when scrolling back
+          tl.pause();
+        }
+      });
+    });
+  }
   
   // Avoid flash of unstyled content
   gsap.set("[text-split]", { opacity: 1 });
   
-  // -----LENIS SMOOTH SCROLL----- //
-  "use strict"; // fix lenis in safari
-  
-  let lenis;
-  if (Webflow.env("editor") === undefined) {
-    // Initialize Lenis
-    lenis = new Lenis({});
-  
-    // Register GSAP ScrollTrigger
-    gsap.registerPlugin(ScrollTrigger);
-  
-    // Update ScrollTrigger on Lenis scroll
-    lenis.on('scroll', ScrollTrigger.update);
-  
-    // Use GSAP ticker for Lenis
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-  }
-  
-  // Event listeners for starting, stopping, and toggling Lenis
-  $("[data-lenis-start]").on("click", function () {
-    lenis.start();
-  });
-  $("[data-lenis-stop]").on("click", function () {
-    lenis.stop();
-  });
-  $("[data-lenis-toggle]").on("click", function () {
-    $(this).toggleClass("stop-scroll");
-    if ($(this).hasClass("stop-scroll")) {
-      lenis.stop();
-    } else {
-      lenis.start();
-    }
-  });
-  
+
   // -----HAMBURGER MENU----- //
   // Number of clicks on the trigger element initially set on 0
   let numOfClicks = 0;
@@ -307,4 +337,5 @@ gsap.to(".load_grid-item", {
       element.style.color = '#818181'; // Revert to initial grey color
     });
   });
+  
   
