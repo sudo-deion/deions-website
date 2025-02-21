@@ -72,15 +72,3 @@ transform-origin: bottom;
   .btn-animate-chars:hover .btn-animate-chars__bg {
     inset: 0.125em;
   }
-  @media screen and (max-width: 768px) {
-    .section_about_wrap,
-    .section_project_sticky {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;     /* Firefox */
-    }
-  
-    .section_about_wrap::-webkit-scrollbar,
-    .section_project_sticky::-webkit-scrollbar {
-      display: none;  /* Chrome, Safari and Opera */
-    }
-  }
