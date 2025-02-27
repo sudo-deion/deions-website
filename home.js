@@ -342,79 +342,68 @@ gsap.to(".project_sticky_info", {
 const skillItems = document.querySelectorAll('.skills_detail_item');
 const skillImages = document.querySelectorAll('.services_skills_image');
 
-// Check if the device is mobile
-const isMobile = window.innerWidth < 768;
-
 // Set initial state of all images to opacity 0
 gsap.set(skillImages, {
   opacity: 0
 });
 
-// Only create the scroll animations if not on mobile
-if (!isMobile) {
-  skillItems.forEach((item, index) => {
-    ScrollTrigger.create({
-      trigger: item,
-      start: () => `top ${skillImages[index].getBoundingClientRect().top}px`,
-      end: () => {
-        if (index === skillItems.length - 1) {
-          // For the last image, calculate its center point
-          const rect = skillImages[index].getBoundingClientRect();
-          const centerY = rect.top + (rect.height / 2);
-          return `bottom ${centerY}px`;
-        }
-        // Other images end at their top
-        return `bottom ${skillImages[index].getBoundingClientRect().top}px`;
-      },
-      toggleActions: "play none none reverse",
-      onEnter: () => {
-        gsap.to(skillImages[index], {
-          opacity: 1,
-          duration: 0.4,
-          ease: "power2.out"
-        });
-        gsap.to(skillImages[index], {
-          scale: 1,
-          duration: 0.4,
-          ease: "power2.out"
-        });
-      },
-      onLeave: () => {
-        gsap.to(skillImages[index], {
-          opacity: 0,
-          scale: 0,
-          duration: 0.4,
-          ease: "power2.out"
-        });
-      },
-      onEnterBack: () => {
-        gsap.to(skillImages[index], {
-          opacity: 1,
-          duration: 0.4,
-          ease: "power2.out"
-        });
-        gsap.to(skillImages[index], {
-          scale: 1,
-          duration: 0.4,
-          ease: "power2.out"
-        });
-      },
-      onLeaveBack: () => {
-        gsap.to(skillImages[index], {
-          opacity: 0,
-          scale: 0,
-          duration: 0.4,
-          ease: "power2.out"
-        });
+skillItems.forEach((item, index) => {
+  ScrollTrigger.create({
+    trigger: item,
+    start: () => `top ${skillImages[index].getBoundingClientRect().top}px`,
+    end: () => {
+      if (index === skillItems.length - 1) {
+        // For the last image, calculate its center point
+        const rect = skillImages[index].getBoundingClientRect();
+        const centerY = rect.top + (rect.height / 2);
+        return `bottom ${centerY}px`;
       }
-    });
+      // Other images end at their top
+      return `bottom ${skillImages[index].getBoundingClientRect().top}px`;
+    },
+    toggleActions: "play none none reverse",
+    onEnter: () => {
+      gsap.to(skillImages[index], {
+        opacity: 1,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+      gsap.to(skillImages[index], {
+        scale: 1,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+    },
+    onLeave: () => {
+      gsap.to(skillImages[index], {
+        opacity: 0,
+        scale: 0,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+    },
+    onEnterBack: () => {
+      gsap.to(skillImages[index], {
+        opacity: 1,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+      gsap.to(skillImages[index], {
+        scale: 1,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+    },
+    onLeaveBack: () => {
+      gsap.to(skillImages[index], {
+        opacity: 0,
+        scale: 0,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+    }
   });
-} else {
-  // For mobile, hide all images completely
-  gsap.set(skillImages, {
-    display: 'none'
-  });
-}
+});
 
 // -----Letters Animation----- //
 initLettersSlideUpTrue(); // Call the function to initialize the letters animation
