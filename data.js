@@ -20,4 +20,11 @@ export const data = [
     year: "2022",
     link: "https://www.deion.design/projects/gems",
   },
+  {
+    title: "South Bay Skates",
+    tagline: "Web Design",
+    tag: "UI, UX Design",
+    year: "2021",
+    link: "https://www.deion.design/projects/south-bay-skates",
+  },
 ];
