@@ -274,7 +274,7 @@ ScrollTrigger.create({
   pinSpacing: true,
   scrub: 0.1,
   onUpdate: (self) => {
-    const totalProgress = self.progress * 3;
+    const totalProgress = self.progress * 4;
     const currentCycle = Math.floor(totalProgress);
     const cycleProgress = (totalProgress % 1) * 100;
 
