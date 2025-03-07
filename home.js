@@ -350,11 +350,24 @@ const skillItems = document.querySelectorAll(".skills_detail_item");
 const skillImages = document.querySelectorAll(".services_skills_image");
 const skillImagesContainer = document.querySelector(".services_skills_images");
 
+// Add a style tag to the head for our custom CSS
+const styleTag = document.createElement("style");
+styleTag.innerHTML = `
+  .mobile-hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+`;
+document.head.appendChild(styleTag);
+
 // Function to setup skill animations for desktop
 function setupSkillAnimations() {
-  // Make sure images container is visible if it exists
+  // Remove mobile-hidden class if present
   if (skillImagesContainer) {
-    skillImagesContainer.style.visibility = "visible";
+    skillImagesContainer.classList.remove("mobile-hidden");
+  } else {
+    skillImages.forEach((img) => img.classList.remove("mobile-hidden"));
   }
 
   // Set initial state for desktop animations
@@ -431,25 +444,42 @@ function hideAllSkillImages() {
     }
   });
 
-  // Hide the entire container if it exists
+  // Add mobile-hidden class
   if (skillImagesContainer) {
-    skillImagesContainer.style.visibility = "hidden";
+    skillImagesContainer.classList.add("mobile-hidden");
   } else {
-    // Otherwise hide individual images
-    gsap.to(skillImages, {
-      opacity: 0,
-      duration: 0.2,
-      ease: "power2.out",
-    });
+    skillImages.forEach((img) => img.classList.add("mobile-hidden"));
+  }
+
+  // Force GSAP to reset them as well
+  gsap.set(skillImages, {
+    opacity: 0,
+    clearProps: "scale", // Clear any scale properties
+  });
+}
+
+// Check if we should apply mobile or desktop behavior
+function checkViewportSize() {
+  if (isMobileDevice()) {
+    hideAllSkillImages();
+  } else {
+    // Check if desktop animations are already set up
+    const triggers = ScrollTrigger.getAll();
+    const hasSkillTriggers = triggers.some(
+      (trigger) =>
+        trigger.vars.trigger &&
+        trigger.vars.trigger.classList &&
+        trigger.vars.trigger.classList.contains("skills_detail_item"),
+    );
+
+    if (!hasSkillTriggers) {
+      setupSkillAnimations();
+    }
   }
 }
 
-// Initial setup based on screen size
-if (!isMobileDevice()) {
-  setupSkillAnimations();
-} else {
-  hideAllSkillImages();
-}
+// Initial setup
+checkViewportSize();
 
 // Simple debounce function
 function debounce(func, wait) {
@@ -463,28 +493,10 @@ function debounce(func, wait) {
 }
 
 // Add resize event handling
-window.addEventListener(
-  "resize",
-  debounce(function () {
-    // Refresh or reinitialize the animations based on new screen size
-    if (isMobileDevice()) {
-      hideAllSkillImages();
-    } else {
-      // Only setup animations if they don't already exist
-      const triggers = ScrollTrigger.getAll();
-      const hasSkillTriggers = triggers.some(
-        (trigger) =>
-          trigger.vars.trigger &&
-          trigger.vars.trigger.classList &&
-          trigger.vars.trigger.classList.contains("skills_detail_item"),
-      );
+window.addEventListener("resize", debounce(checkViewportSize, 250));
 
-      if (!hasSkillTriggers) {
-        setupSkillAnimations();
-      }
-    }
-  }, 250),
-); // Debounce of 250ms
+// Additionally, check on page load in case DOM elements weren't fully ready
+window.addEventListener("load", checkViewportSize);
 
 // -----Letters Animation----- //
 initLettersSlideUpTrue(); // Call the function to initialize the letters animation
