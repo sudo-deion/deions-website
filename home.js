@@ -1,20 +1,17 @@
 import { data } from "./data.js";
 import { initLettersSlideUpTrue } from "./global.js"; // Import the function
 
-
 // -----Letters Animation-in on load----- /
 
-const letters = document.querySelectorAll(
-    '.svg_letter_wrap > path'); // Select all direct child path elements
-    
+const letters = document.querySelectorAll(".svg_letter_wrap > path"); // Select all direct child path elements
+
 if (letters.length > 0) {
   // Animate the letters with staggered effects
   gsap.from(letters, {
     duration: 1.5,
     y: 700, // Start from 100px below
     stagger: 0.1, // Stagger the animation by 0.1 seconds
-    ease: CustomEase.create("custom",
-    "M0,0 C0,0.712 0.104,1 1,1 "), // Easing function for the animation
+    ease: CustomEase.create("custom", "M0,0 C0,0.712 0.104,1 1,1 "), // Easing function for the animation
   });
 }
 
@@ -26,13 +23,13 @@ const tl = gsap.timeline({
     start: "top top", // Start when the top of section_hero hits the top of the viewport
     end: "bottom top", // End when the bottom of section_hero hits the top of the viewport
     scrub: true, // Smooth scrubbing
-    pin: true // Pin the section_hero during the scroll
-  }
+    pin: true, // Pin the section_hero during the scroll
+  },
 });
 
 // -----Reel animating in and Mouse movement----- /
 
-const reelWrap = document.querySelector('.reel_wrap');
+const reelWrap = document.querySelector(".reel_wrap");
 
 if (reelWrap) {
   const parent = reelWrap.parentElement; // Get the parent element
@@ -48,7 +45,7 @@ if (reelWrap) {
   });
 
   // Add an event listener for mouse movement
-  document.addEventListener('mousemove', (event) => {
+  document.addEventListener("mousemove", (event) => {
     const mouseX = event.clientX;
 
     // Get the width of the reel_wrap element and the parent element
@@ -56,10 +53,13 @@ if (reelWrap) {
     const parentWidth = parent.offsetWidth;
 
     // Calculate the new position, ensuring it stays within the parent's bounds
-    const newX = Math.min(parentWidth - wrapWidth, Math.max(0, mouseX - wrapWidth / 2));
+    const newX = Math.min(
+      parentWidth - wrapWidth,
+      Math.max(0, mouseX - wrapWidth / 2),
+    );
 
     // Calculate the tilt based on mouse position
-    const tilt = (mouseX - parentWidth / 2) / parentWidth * 20; // Adjust the tilt based on mouse position
+    const tilt = ((mouseX - parentWidth / 2) / parentWidth) * 20; // Adjust the tilt based on mouse position
 
     // Use GSAP to animate the reel_wrap element's position and tilt
     gsap.to(reelWrap, {
@@ -102,11 +102,11 @@ function animateImageEntry(img) {
       opacity: 1,
       duration: 1,
       ease: "expo.out",
-    }
+    },
   );
 
   // Animate the video element
-  const mediaElement = img.querySelector('.h_project_media');
+  const mediaElement = img.querySelector(".h_project_media");
   if (mediaElement) {
     gsap.fromTo(
       mediaElement,
@@ -119,7 +119,7 @@ function animateImageEntry(img) {
         filter: "contrast(1) brightness(1)",
         duration: 1,
         ease: "expo.out",
-      }
+      },
     );
   }
 }
@@ -141,7 +141,7 @@ function animateImageExitReverse(img) {
     ease: "expo.out",
   });
 
-  const mediaElement = img.querySelector('.h_project_media');
+  const mediaElement = img.querySelector(".h_project_media");
   if (mediaElement) {
     gsap.to(mediaElement, {
       scale: 2,
@@ -161,7 +161,7 @@ function updateInfoContent(index) {
   const linkText = document.querySelector(".h_project_link_text");
 
   // Clear existing content
-  [titleText, taglineText, tagText, yearText, linkText].forEach(element => {
+  [titleText, taglineText, tagText, yearText, linkText].forEach((element) => {
     if (element) element.innerHTML = "";
   });
 
@@ -174,10 +174,10 @@ function updateInfoContent(index) {
 
   // Update all media links to be clickable
   const mediaLinks = document.querySelectorAll(".project_media");
-  mediaLinks.forEach(mediaLink => {
-    mediaLink.style.cursor = 'pointer';
-    mediaLink.style.pointerEvents = 'auto';
-    mediaLink.style.zIndex = '1';
+  mediaLinks.forEach((mediaLink) => {
+    mediaLink.style.cursor = "pointer";
+    mediaLink.style.pointerEvents = "auto";
+    mediaLink.style.zIndex = "1";
     mediaLink.setAttribute("href", item.link);
   });
 
@@ -185,13 +185,13 @@ function updateInfoContent(index) {
     { element: titleText, content: item.title },
     { element: taglineText, content: item.tagline },
     { element: tagText, content: item.tag },
-    { element: yearText, content: item.year }
+    { element: yearText, content: item.year },
   ];
 
   // Animate each text element
   contentArray.forEach(({ element, content }) => {
     if (!element) return;
-    
+
     const letters = content.split("");
     letters.forEach((letter, index) => {
       const span = document.createElement("span");
@@ -228,38 +228,40 @@ function updateInfoContent(index) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   // Make media links clickable
   const mediaLinks = document.querySelectorAll(".project_media");
-  mediaLinks.forEach(mediaLink => {
-    mediaLink.style.cursor = 'pointer';
-    mediaLink.style.pointerEvents = 'auto';
-    mediaLink.style.zIndex = '1';
+  mediaLinks.forEach((mediaLink) => {
+    mediaLink.style.cursor = "pointer";
+    mediaLink.style.pointerEvents = "auto";
+    mediaLink.style.zIndex = "1";
   });
 
   // Ensure project info stays on top
   const projectInfo = document.querySelector(".project_sticky_info");
   if (projectInfo) {
-    projectInfo.style.zIndex = '2';
-    projectInfo.style.pointerEvents = 'none'; // Allow clicks to pass through to media
+    projectInfo.style.zIndex = "2";
+    projectInfo.style.pointerEvents = "none"; // Allow clicks to pass through to media
   }
-  
+
   // Make only the link clickable within the info section
   const projectLink = document.querySelector(".h_project_link");
   if (projectLink) {
-    projectLink.style.pointerEvents = 'auto';
-    projectLink.style.position = 'relative';
-    projectLink.style.zIndex = '3';
+    projectLink.style.pointerEvents = "auto";
+    projectLink.style.position = "relative";
+    projectLink.style.zIndex = "3";
   }
-  
+
   // Make only the text elements block pointer events
-  const textElements = document.querySelectorAll('.h_project_title_text, .h_project_tagline_text, .h_project_tag_text, .h_project_year_text');
-  textElements.forEach(element => {
-    element.style.position = 'relative';
-    element.style.pointerEvents = 'auto';
-    element.style.zIndex = '2';
+  const textElements = document.querySelectorAll(
+    ".h_project_title_text, .h_project_tagline_text, .h_project_tag_text, .h_project_year_text",
+  );
+  textElements.forEach((element) => {
+    element.style.position = "relative";
+    element.style.pointerEvents = "auto";
+    element.style.zIndex = "2";
   });
-  
+
   updateInfoContent(0);
   animateImageEntry(images[0]);
 });
@@ -339,71 +341,143 @@ gsap.to(".project_sticky_info", {
 
 // -----Skills Section----- //
 
-const skillItems = document.querySelectorAll('.skills_detail_item');
-const skillImages = document.querySelectorAll('.services_skills_image');
+// Function to check if the device is mobile
+function isMobileDevice() {
+  return window.innerWidth < 768; // Common breakpoint for mobile devices
+}
+
+const skillItems = document.querySelectorAll(".skills_detail_item");
+const skillImages = document.querySelectorAll(".services_skills_image");
 
 // Set initial state of all images to opacity 0
 gsap.set(skillImages, {
-  opacity: 0
+  opacity: 0,
 });
 
-skillItems.forEach((item, index) => {
-  ScrollTrigger.create({
-    trigger: item,
-    start: () => `top ${skillImages[index].getBoundingClientRect().top}px`,
-    end: () => {
-      if (index === skillItems.length - 1) {
-        // For the last image, calculate its center point
-        const rect = skillImages[index].getBoundingClientRect();
-        const centerY = rect.top + (rect.height / 2);
-        return `bottom ${centerY}px`;
-      }
-      // Other images end at their top
-      return `bottom ${skillImages[index].getBoundingClientRect().top}px`;
-    },
-    toggleActions: "play none none reverse",
-    onEnter: () => {
-      gsap.to(skillImages[index], {
-        opacity: 1,
-        duration: 0.4,
-        ease: "power2.out"
-      });
-      gsap.to(skillImages[index], {
-        scale: 1,
-        duration: 0.4,
-        ease: "power2.out"
-      });
-    },
-    onLeave: () => {
-      gsap.to(skillImages[index], {
-        opacity: 0,
-        scale: 0,
-        duration: 0.4,
-        ease: "power2.out"
-      });
-    },
-    onEnterBack: () => {
-      gsap.to(skillImages[index], {
-        opacity: 1,
-        duration: 0.4,
-        ease: "power2.out"
-      });
-      gsap.to(skillImages[index], {
-        scale: 1,
-        duration: 0.4,
-        ease: "power2.out"
-      });
-    },
-    onLeaveBack: () => {
-      gsap.to(skillImages[index], {
-        opacity: 0,
-        scale: 0,
-        duration: 0.4,
-        ease: "power2.out"
-      });
+// Function to setup skill animations for desktop
+function setupSkillAnimations() {
+  skillItems.forEach((item, index) => {
+    ScrollTrigger.create({
+      trigger: item,
+      start: () => `top ${skillImages[index].getBoundingClientRect().top}px`,
+      end: () => {
+        if (index === skillItems.length - 1) {
+          // For the last image, calculate its center point
+          const rect = skillImages[index].getBoundingClientRect();
+          const centerY = rect.top + rect.height / 2;
+          return `bottom ${centerY}px`;
+        }
+        // Other images end at their top
+        return `bottom ${skillImages[index].getBoundingClientRect().top}px`;
+      },
+      toggleActions: "play none none reverse",
+      onEnter: () => {
+        gsap.to(skillImages[index], {
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+        gsap.to(skillImages[index], {
+          scale: 1,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      },
+      onLeave: () => {
+        gsap.to(skillImages[index], {
+          opacity: 0,
+          scale: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      },
+      onEnterBack: () => {
+        gsap.to(skillImages[index], {
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+        gsap.to(skillImages[index], {
+          scale: 1,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      },
+      onLeaveBack: () => {
+        gsap.to(skillImages[index], {
+          opacity: 0,
+          scale: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      },
+    });
+  });
+}
+
+// Function to show all images on mobile
+function showAllSkillImages() {
+  // Kill any active ScrollTriggers for skill images
+  ScrollTrigger.getAll().forEach((trigger) => {
+    if (
+      trigger.vars.trigger &&
+      trigger.vars.trigger.classList &&
+      trigger.vars.trigger.classList.contains("skills_detail_item")
+    ) {
+      trigger.kill();
     }
   });
-});
+
+  // Make all images visible on mobile
+  gsap.to(skillImages, {
+    opacity: 1,
+    scale: 1,
+    duration: 0.4,
+    ease: "power2.out",
+  });
+}
+
+// Initial setup based on screen size
+if (!isMobileDevice()) {
+  setupSkillAnimations();
+} else {
+  showAllSkillImages();
+}
+
+// Simple debounce function
+function debounce(func, wait) {
+  let timeout;
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(context, args), wait);
+  };
+}
+
+// Add resize event handling
+window.addEventListener(
+  "resize",
+  debounce(function () {
+    // Refresh or reinitialize the animations based on new screen size
+    if (isMobileDevice()) {
+      showAllSkillImages();
+    } else {
+      // Only setup animations if they don't already exist
+      const triggers = ScrollTrigger.getAll();
+      const hasSkillTriggers = triggers.some(
+        (trigger) =>
+          trigger.vars.trigger &&
+          trigger.vars.trigger.classList &&
+          trigger.vars.trigger.classList.contains("skills_detail_item"),
+      );
+
+      if (!hasSkillTriggers) {
+        setupSkillAnimations();
+      }
+    }
+  }, 250),
+); // Debounce of 250ms
 
 // -----Letters Animation----- //
 initLettersSlideUpTrue(); // Call the function to initialize the letters animation
