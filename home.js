@@ -415,8 +415,8 @@ function setupSkillAnimations() {
   });
 }
 
-// Function to show all images on mobile
-function showAllSkillImages() {
+// Function to hide all images on mobile
+function hideAllSkillImages() {
   // Kill any active ScrollTriggers for skill images
   ScrollTrigger.getAll().forEach((trigger) => {
     if (
@@ -428,10 +428,10 @@ function showAllSkillImages() {
     }
   });
 
-  // Make all images visible on mobile
+  // Hide all images on mobile
   gsap.to(skillImages, {
-    opacity: 1,
-    scale: 1,
+    opacity: 0,
+    scale: 0,
     duration: 0.4,
     ease: "power2.out",
   });
@@ -441,7 +441,7 @@ function showAllSkillImages() {
 if (!isMobileDevice()) {
   setupSkillAnimations();
 } else {
-  showAllSkillImages();
+  hideAllSkillImages();
 }
 
 // Simple debounce function
@@ -461,7 +461,7 @@ window.addEventListener(
   debounce(function () {
     // Refresh or reinitialize the animations based on new screen size
     if (isMobileDevice()) {
-      showAllSkillImages();
+      hideAllSkillImages();
     } else {
       // Only setup animations if they don't already exist
       const triggers = ScrollTrigger.getAll();
