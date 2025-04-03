@@ -1,7 +1,9 @@
 /* -----PIXELATED GRID LOAD----- */
-.load_grid{
-  display: grid;
-}
+/* Show grid on page load (it's set to display none in Webflow) */
+.transition{ display: grid; }
+
+/* Hide grid in the editor */
+.w-editor .transition{ display: none; }
 
 /* -----LENIS SMOOTH SCROLL----- */
 html.lenis {
@@ -38,7 +40,7 @@ transform-origin: bottom;
     position: relative;
     display: inline-block;
   }
-  
+
   .btn-animate-chars [data-button-animate-chars] span {
     display: inline-block;
     position: relative;
@@ -46,23 +48,23 @@ transform-origin: bottom;
     transform: translateY(0em) rotate(0.001deg);
     transition: transform 0.5s cubic-bezier(0.625, 0.05, 0, 1);
   }
-  
+
   .btn-animate-chars:hover [data-button-animate-chars] span {
     transform: translateY(-1.3em) rotate(0.001deg);
   }
-  
+
   [data-initial-color] {
     color: #818181;
     /* Initial grey color */
     transition: color 0.5s ease;
     /* Smooth transition for color change */
   }
-  
+
   .btn-animate-chars:hover [data-initial-color] {
     color: #f2f2f2;
     /* Change to the desired color on hover */
   }
-  
+
   /* Background */
 .btn-animate-chars__bg {
   inset: 0;
