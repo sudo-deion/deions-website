@@ -34,6 +34,8 @@ function adjustGrid() {
     resolve();
   });
 }
+
+
 document.addEventListener("DOMContentLoaded", () => {
   adjustGrid().then(() => {
     let pageLoadTimeline = gsap.timeline({
